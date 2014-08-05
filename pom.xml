@@ -1,306 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.kew.stringmod</groupId>
-    <artifactId>deduplicator-framework</artifactId>
-    <version>0.2-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kew.rmf</groupId>
+	<artifactId>string-transformers</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 
-    <modules>
-        <module>deduplicator</module>
-        <module>matchconf</module>
-        <module>stringmodlib</module>
-        <module>stringmodutils</module>
-        <module>webservice</module>
-  </modules>
+	<name>transformers</name>
 
-    <properties>
-        <project.build.timestamp>${maven.build.timestamp}</project.build.timestamp>
-        <!-- project-wide encoding -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- versions -->
-        <aspectj.version>1.7.0</aspectj.version>
-        <commons-io.version>1.3.2</commons-io.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <commons-lang3.version>3.1</commons-lang3.version>
-        <cucumber-all.version>1.1.3</cucumber-all.version>
-        <gherkin.version>2.12.0</gherkin.version>
-        <gson.version>2.2.4</gson.version>
-        <hamcrest-all.version>1.3</hamcrest-all.version>
-        <java.version>7</java.version>
-        <junit.version>4.11</junit.version>
-        <liquibase.version>3.0.1</liquibase.version>
-        <logback.version>1.0.13</logback.version>
-        <lucene.version>4.4.0</lucene.version>
-        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-        <reflections.version>0.9.9-RC1</reflections.version>
-        <roo.version>1.2.5.RELEASE</roo.version>
-        <servlet-api.version>2.5</servlet-api.version>
-        <slf4j.version>1.7.5</slf4j.version>
-        <spring.version>3.1.0.RELEASE</spring.version>
-        <super-csv.version>2.1.0</super-csv.version>
-    </properties>
+	<properties>
+		<project.build.timestamp>${maven.build.timestamp}</project.build.timestamp>
+		<!-- project-wide encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- versions -->
+		<commons-lang.version>3.3.2</commons-lang.version>
+		<junit.version>4.11</junit.version>
+		<slf4j.version>1.7.5</slf4j.version>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.reflections</groupId>
-                <artifactId>reflections</artifactId>
-                <version>${reflections.version}</version>
-            </dependency>
-            <!-- json serialisation -->
-            <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-core</artifactId>
-                <version>${liquibase.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase.version}</version>
-            </dependency>
-            <!-- for testing -->
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-all</artifactId>
-                <version>${hamcrest-all.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-core</artifactId>
-                <version>${cucumber-all.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-java</artifactId>
-                <version>${cucumber-all.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-spring</artifactId>
-                <version>1.0.8</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>gherkin</artifactId>
-                <version>${gherkin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>info.cukes</groupId>
-                <artifactId>cucumber-junit</artifactId>
-                <version>${cucumber-all.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- spring stuff -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aspects</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.webflow</groupId>
-                <artifactId>spring-js-resources</artifactId>
-                <version>2.2.1.RELEASE</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-                <artifactId>ehcache-spring-annotations</artifactId>
-                <version>1.2.0</version>
-            </dependency>
-            <!-- lucene related -->
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-core</artifactId>
-                <version>${lucene.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-queryparser</artifactId>
-                <version>${lucene.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-queries</artifactId>
-                <version>${lucene.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-analyzers-common</artifactId>
-                <version>${lucene.version}</version>
-            </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
 
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
-            </dependency>
-            <!-- logging stuff -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>jcl-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
-                <type>jar</type>
-                <scope>compile</scope>
-            </dependency>
-            <!-- command line parser -->
-            <dependency>
-                <groupId>commons-cli</groupId>
-                <artifactId>commons-cli</artifactId>
-                <version>20040117.000000</version>
-            </dependency>
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>${aspectj.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjweaver</artifactId>
-                <version>${aspectj.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${servlet-api.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.flexjson</groupId>
-                <artifactId>flexjson</artifactId>
-                <version>2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.supercsv</groupId>
-                <artifactId>super-csv</artifactId>
-                <version>${super-csv.version}</version>
-            </dependency>
-            <!-- ROO dependencies -->
-            <dependency>
-                <groupId>org.springframework.roo</groupId>
-                <artifactId>org.springframework.roo.annotations</artifactId>
-                <version>${roo.version}</version>
-                <scope>provided</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>spring-maven-release</id>
-            <name>Spring Maven Release Repository</name>
-            <url>http://maven.springframework.org/release</url>
-        </repository>
-        <repository>
-            <id>spring-roo-repository</id>
-            <name>Spring Roo Repository</name>
-            <url>http://spring-roo-repository.springsource.org/release</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-maven-release</id>
-            <name>Spring Maven Release Repository</name>
-            <url>http://maven.springframework.org/release</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-roo-repository</id>
-            <name>Spring Roo Repository</name>
-            <url>http://spring-roo-repository.springsource.org/release</url>
-        </pluginRepository>
-    </pluginRepositories>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang.version}</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<pluginManagement>
@@ -308,7 +38,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.1</version>
+					<version>3.1</version>
 					<configuration>
 						<source>1.7</source>
 						<target>1.7</target>
@@ -325,30 +55,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>2.2</version>
-				</plugin>
-
-				<!--plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>2.16</version>
-					<executions>
-						<execution>
-							<id>integration-test</id>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin-->
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1.1</version>
-					<configuration>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-					</configuration>
 				</plugin>
 
 				<plugin>

@@ -1,25 +1,19 @@
-# deduplicator-framework
+# String Transformers
 
-This is a multi-module maven project. It consists of:
+This is a collection of string transformers, all of which implement a `transform`
+method that takes a string and returns one.
 
-* the deduplicator (incl. the CoreApp): a command-line tool for deduplication
-  and string matching task
-* match-conf: a wrapper around the app providing a UI with (persistent)
-  configuration functionality
-* stringmodlib: a set of string modification packages meant for easy re-use
-  as well by other apps
-* stringmodutils: several classes re-used by more than one submodule
-
-## testing
-mvn clean test
-
-## local deployment of match-conf
-The following starts a local server on port 8080.
-[in the root directory of deduplicator-framework:] mvn clean install
-cd matchconf
-mvn jetty:deploy-war
-
-## detailed information regarding the app and match-conf
-Read in the submodules:
-- deduplicator-framework-app/readme.md
-- matchconf/readme.md
+## what it should/could do
+* We somehow have a hierarchy generic --> highly specialised transformers. This
+  is not implemented consequently though. Would one ever decide to e.g.
+  opensource parts of the deduplicator framework, then there could be a part of
+  stringmodlib that would be of use for any person, not only a botanist. These
+  guys would love 'A2BTransformer' and maybe even 'RomanNumeralTransformer' but
+  would not want to have 'EpithetTransformer'.
+* This is also valid for what to put into
+  org.kew.stringmod.lib.transformers.RegexDefCollection; maybe more specific
+  packages could have sth similar that inherits the generic one and adds to it?
+* the docstrings should be made available to matchconf
+* there should be an easy way (via reflection) to expose all settable fields to
+  matchconf and/or other software; this would make the 'remote' configuration
+  far more comfortable
