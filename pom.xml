@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kew.rmf</groupId>
 	<artifactId>string-transformers</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 
 	<name>transformers</name>
 	<inceptionYear>2012</inceptionYear>
@@ -63,7 +63,7 @@
 		<connection>scm:git:git@github.com:RBGKew/String-Transformers.git</connection>
 		<developerConnection>scm:git:git@github.com:RBGKew/String-Transformers.git</developerConnection>
 		<url>http://github.com/RBGKew/String-Transformers</url>
-	  <tag>string-transformers-0.1.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
