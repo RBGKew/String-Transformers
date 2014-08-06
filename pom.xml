@@ -6,7 +6,60 @@
 	<version>1.0.0-SNAPSHOT</version>
 
 	<name>transformers</name>
+	<inceptionYear>2012</inceptionYear>
+	<description>
+		This is a collection of string transformers, all of which implement a “transform”
+		method that takes a string and returns one.
 
+		Some transformers are very generic, and others are aimed at botany, taxonomy
+		or related literature.
+	</description>
+	<url>https://github.com/RBGKew/String-Transformers</url>
+
+	<organization>
+		<name>Royal Botanic Gardens, Kew</name>
+		<url>http://www.kew.org/</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>MIT license</name>
+			<url>http://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
+
+
+	<developers>
+		<developer>
+			<name>Matthew Blissett</name>
+			<email>M.Blissett@kew.org</email>
+			<roles><role>developer</role><role>maintainer</role></roles>
+			<timezone>0</timezone>
+		</developer>
+
+		<developer>
+			<name>Nicky Nicolson</name>
+			<email>n.nicolson@kew.org</email>
+			<roles><role>developer</role><role>maintainer</role></roles>
+			<timezone>0</timezone>
+		</developer>
+
+		<developer>
+			<name>Alecs Geuder</name>
+			<roles><role>previous developer</role></roles>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/RBGKew/String-Transformers/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:git@github.com:RBGKew/String-Transformers.git</connection>
+		<developerConnection>scm:git:git@github.com:RBGKew/String-Transformers.git</developerConnection>
+		<url>http://github.com/RBGKew/String-Transformers</url>
+	</scm>
 	<properties>
 		<project.build.timestamp>${maven.build.timestamp}</project.build.timestamp>
 		<!-- project-wide encoding -->
