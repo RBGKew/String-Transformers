@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/RBGKew/String-Transformers.svg?branch=master)](https://travis-ci.org/RBGKew/String-Transformers)
+
 # String Transformers
 
 This is a collection of string transformers, all of which implement a `transform` method that takes a string and returns another.

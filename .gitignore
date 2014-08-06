@@ -1,9 +1,8 @@
-target/
-data/
-*.log
 .classpath
 .settings
 .project
-*.properties
-matchconf/src/main/resources/META-INF/spring/database.properties
+
+*.log
+
 logs/
+target/
