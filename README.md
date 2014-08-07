@@ -8,8 +8,9 @@ Some are generic: `CapitalLettersExtractor` removes non-capital letters from a s
 
 ## Usage with OpenRefine
 
-The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download (temporary location)](http://bitbucket.matt.blissett.me.uk/string-transformers-1.0.0-SNAPSHOT.jar)
-the JAR and put it in OpenRefine's `webapp/extensions/jython/module/MOD-INF/lib` directory, then (re)start OpenRefine.
+The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download the JAR](http://repo1.maven.org/maven2/org/kew/rmf/string-transformers/0.1.0/string-transformers-0.1.0.jar)
+and [Apache Commons-Lang3 JAR](http://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar) and
+put both in OpenRefine's `webapp/extensions/jython/module/MOD-INF/lib` directory, then (re)start OpenRefine.
 
 Use expressions like this, after selecting _Jython_ from the Language dropdown:
 
@@ -20,12 +21,22 @@ cle = CapitalLettersExtractor()
 return cle.transform(value)
 ```
 
+## Usage in other software
+
+The library is published in the Maven Central Repository:
+
+```xml
+<dependency>
+	<groupId>org.kew.rmf</groupId>
+	<artifactId>string-transformers</artifactId>
+	<version>0.1.0</version>
+</dependency>
+```
+
 ## Licensing, contributions and credits
 
-String-Transformers is open source software licensed under the MIT license, see `LICENSE.md`.  The software was created by developers at the [Royal Botanic Gardens, Kew](http://www.kew.org/).  Contributers are
-* Nicky Nicolson
-* Nick Black
-* Matthew Blissett (maintainer; M.Blissett@kew.org)
-* Alecs Geuder
+String-Transformers is open source software licensed under the MIT license, see `LICENSE.md`.  The software was created at the [Royal Botanic Gardens, Kew](http://www.kew.org/).  For details of
+developers see the Git commit history.  Thanks also to the Data Improvement Team for their scientific input.
 
-Further contributions are welcome!  We’re also interested to know if you use this library, whether that’s for biodiversity data or something else.
+Further contributions are welcome!  We’re also interested to know if you use this library, whether that’s for biodiversity data or something else.  Contact [Matthew Blissett](mailto:M.Blissett@kew.org?subject=String-Transformers) or
+use [GitHub](https://github.com/RBGKew/String-Transformers).
