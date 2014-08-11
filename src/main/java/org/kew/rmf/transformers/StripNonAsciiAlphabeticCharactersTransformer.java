@@ -15,8 +15,7 @@ package org.kew.rmf.transformers;
  * <br/>
  * Could often be combined with {@link NormaliseDiacriticalMarksTransformer} first.
  *
- * @see {@link StripNonAlphabeticCharactersTransformer} for retaining accented
- * characters etc.
+ * @see StripNonAlphabeticCharactersTransformer for retaining accented characters etc.
  */
 public class StripNonAsciiAlphabeticCharactersTransformer extends RegexTransformer {
 

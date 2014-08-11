@@ -11,7 +11,7 @@ package org.kew.rmf.transformers;
 
 /**
  * CapitalLettersExtractor returns only the capital letters in a string, other letters
- * are replaced by {@link b} (default space).
+ * are replaced by {@link #replacement} (default space).
  * <br/>
  * "Kew Gardens" → "K G"<br/>
  * "TW9 3AE" → "TW AE"

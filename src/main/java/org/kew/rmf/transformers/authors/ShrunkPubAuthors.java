@@ -14,10 +14,10 @@ import org.kew.rmf.transformers.Transformer;
 /**
  * This transformer tries to identify all publication authors of plant names in
  * a string and returns a string where each of their surnames are shrunk/cropped
- * to a length of {@link #shrinkTo}.
- * <br/>
- * For examples of standard usage and corner cases see {@link
- * ShrunkPubAuthorsTest}
+ * to a length of {@link #setShrinkTo(int)}.
+ */
+/*
+ * For examples of standard usage and corner cases see {@link ShrunkPubAuthorsTest}
  */
 public class ShrunkPubAuthors implements Transformer {
 

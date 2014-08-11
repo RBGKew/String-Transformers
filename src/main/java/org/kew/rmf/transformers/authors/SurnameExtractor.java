@@ -16,7 +16,8 @@ import org.kew.rmf.transformers.Transformer;
 /**
  * This transformer tries to identify all surnames of plant name authors in a string
  * and deletes everything else.
- *
+ */
+/*
  * For examples see {@link org.kew.rmf.transformers.authors.SurnameExtractorTest}
  */
 public class SurnameExtractor implements Transformer {

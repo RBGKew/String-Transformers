@@ -63,8 +63,8 @@
 		<connection>scm:git:git@github.com:RBGKew/String-Transformers.git</connection>
 		<developerConnection>scm:git:git@github.com:RBGKew/String-Transformers.git</developerConnection>
 		<url>http://github.com/RBGKew/String-Transformers</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -167,6 +167,16 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<version>2.9.1</version>
+						<configuration>
+							<author>false</author>
+							<charset>utf-8</charset>
+							<show>package</show>
+							<linksource>true</linksource>
+							<nohelp>true</nohelp>
+							<header>String-Transformers, ${project.version}</header>
+							<footer>String-Transformers, ${project.version}</footer>
+							<doctitle>String-Transformers, ${project.version}</doctitle>
+						</configuration>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -175,6 +185,21 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-publish-plugin</artifactId>
+						<version>1.1</version>
+						<configuration>
+							<checkoutDirectory>${project.build.directory}/scmpublish</checkoutDirectory>
+							<checkinComment>Publishing javadoc for ${project.artifactId}:${project.version}</checkinComment>
+							<content>${project.reporting.outputDirectory}</content>
+							<destDir>${project.version}</destDir>
+							<skipDeletedFiles>true</skipDeletedFiles>
+							<pubScmUrl>scm:git:git@github.com:RBGKew/String-Transformers.git</pubScmUrl>
+							<scmBranch>gh-pages</scmBranch>
+						</configuration>
 					</plugin>
 
 					<plugin>
@@ -196,13 +221,6 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-site-plugin</artifactId>
 						<version>3.3</version>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.maven.wagon</groupId>
-								<artifactId>wagon-ssh</artifactId>
-								<version>1.0</version>
-							</dependency>
-						</dependencies>
 					</plugin>
 				</plugins>
 			</build>

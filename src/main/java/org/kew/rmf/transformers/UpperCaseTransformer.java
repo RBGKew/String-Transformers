@@ -32,7 +32,7 @@ public class UpperCaseTransformer implements Transformer {
 	/**
 	 * Sets the locale to use for the transformation.  Default is English.
 	 *
-	 * @see {@link String#toUpperCase(Locale)}.
+	 * @see String#toUpperCase(Locale)
 	 * @param locale
 	 */
 	public void setLocale(Locale locale) {
