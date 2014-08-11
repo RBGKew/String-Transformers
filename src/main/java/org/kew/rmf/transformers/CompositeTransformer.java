@@ -9,6 +9,7 @@
  */
 package org.kew.rmf.transformers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class CompositeTransformer implements Transformer{
 
-	private List<Transformer> transformers;
+	private List<Transformer> transformers = new ArrayList<>();
 
 	@Override
 	public String transform(String s) throws TransformationException {

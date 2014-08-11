@@ -7,17 +7,31 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.kew.rmf.transformers;
+package org.kew.rmf.transformers.authors;
 
-/**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
- */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+import static org.junit.Assert.assertEquals;
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+import org.junit.Test;
+
+public class StripInAuthorTransformerTest {
+
+	StripInAuthorTransformer transformer = new StripInAuthorTransformer();
+
+	@Test
+	public void stripItSimple() {
+		String author = "Someone in Else";
+		assertEquals("Someone", transformer.transform(author));
+	}
+
+	@Test
+	public void capitalEx() {
+		String author = "Someone in Else";
+		assertEquals("Someone", transformer.transform(author));
+		author = "Someone In Else";
+		assertEquals("Someone", transformer.transform(author));
+		author = "Someone iN Else";
+		assertEquals("Someone", transformer.transform(author));
+		author = "Someone IN Else";
+		assertEquals("Someone", transformer.transform(author));
 	}
 }

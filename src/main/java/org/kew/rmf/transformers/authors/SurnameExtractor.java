@@ -9,7 +9,8 @@
  */
 package org.kew.rmf.transformers.authors;
 
-import org.kew.rmf.transformers.RegexDefCollection;
+import java.util.regex.Pattern;
+
 import org.kew.rmf.transformers.Transformer;
 
 /**
@@ -18,15 +19,21 @@ import org.kew.rmf.transformers.Transformer;
  *
  * For examples see {@link org.kew.rmf.transformers.authors.SurnameExtractorTest}
  */
-public class SurnameExtractor extends RegexDefCollection implements Transformer {
+public class SurnameExtractor implements Transformer {
 
-    @Override
-    public String transform(String s) {
-        // Linnaeus special: first we remove the Dot after <L> in order to make it appear as a surname,
-        //  but only where it's very likely to be Linnaeus; afterwards we'll add it again.
-        s = s.replaceAll(String.format("L\\.(?=\\s)", ALPHANUMDIAC), "L ");
-        String chars = String.format("(?<!%s)(-*%s\\.\\s*)(?=[^$\\)])", ALPHANUMDIAC, ALPHANUMDIAC);
-        s = s.replaceAll(chars, "");
-        return s.replaceAll("L ", "L\\.");
-    }
+	private Pattern linnaeusRemoveDot = Pattern.compile("L\\.(?=\\s)");
+	private Pattern surnameExtractorPattern = Pattern.compile("(?<!\\p{L})(-*\\p{L}\\.\\s*)(?=[^$\\)])");
+	private Pattern linnaeusAddDot = Pattern.compile("L ");
+
+	@Override
+	public String transform(String s) {
+		// Linnaeus special: first we remove the Dot after "L" in order to make it appear as a surname,
+		//  but only where it's very likely to be Linnaeus; afterwards we'll add it again.
+		s = linnaeusRemoveDot.matcher(s).replaceAll("L ");
+
+		s = surnameExtractorPattern.matcher(s).replaceAll("");
+
+		s = linnaeusAddDot.matcher(s).replaceAll("L.");
+		return s;
+	}
 }

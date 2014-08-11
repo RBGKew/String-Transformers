@@ -9,34 +9,30 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * This is just a best-practise chain of three transformations:
- * (1) replaces diacritic characters with their ASCII equivalent (NormaliseDiacriticsTransformer)
- * (2) replaces all non-ASCII characters with `b` (default: whitespace)
- * (3) replaces multiple whitespace occurrences with one whitespace
- * returns a trimmed result
- */
-public class SafeStripNonAlphasTransformer implements Transformer {
+import static org.junit.Assert.assertEquals;
 
-	private final String a = "[^A-Za-z]";
-	private String replaceWith = " ";
+import java.util.Locale;
 
-	@Override
-	public String transform(String s) {
-		s = new NormaliseDiacritsTransformer().transform(s);
-		return s.replaceAll(a, replaceWith).replaceAll("\\s+", " ").trim();
+import org.junit.Test;
+
+public class UpperCaseTransformerTest {
+
+	@Test
+	public void testSimple() {
+		UpperCaseTransformer transformer = new UpperCaseTransformer();
+		assertEquals("TODAY IS THE 8TH AUGUST.", transformer.transform("Today is the 8th August."));
+		assertEquals("MEIN GEBURTSTAG IST DER 13. MÄRZ.", transformer.transform("Mein Geburtstag ist der 13. März."));
+		assertEquals("СОФИЯ Е СТОЛИЦА НА БЪЛГАРИЯ.", transformer.transform("София е столица на България."));
+		assertEquals("北京是中国的", transformer.transform("北京是中国的"));
 	}
 
-	public String getA() {
-		return a;
-	}
+	@Test
+	public void testWithLocale() {
+		UpperCaseTransformer transformer = new UpperCaseTransformer();
 
-	public String getReplaceWith() {
-		return replaceWith;
-	}
+		assertEquals("Ì", transformer.transform("ì")); // English locale, uppercase i with grave accent
 
-	public void setReplaceWith(String replaceWith) {
-		this.replaceWith = replaceWith;
+		transformer.setLocale(Locale.GERMAN);
+		assertEquals("SS", transformer.transform("ß")); // Eszet to SS.
 	}
-	
 }

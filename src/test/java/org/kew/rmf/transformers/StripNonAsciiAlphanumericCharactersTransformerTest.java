@@ -9,24 +9,36 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * Deletes X and x that seem to be meant as hybrid signs
- *
- * X and x can be at the beginning of a string followed by a whitespace or
- * anywhere in the string if surrounded by white-spaces.
- */
-public class FakeHybridSignCleaner extends A2BTransformer {
+import static org.junit.Assert.assertEquals;
 
-	final private String a = "^[Xx]\\s|\\s[xX]\\s";
-	final private String b = " ";
+import org.junit.Test;
 
-	@Override
-	public String getA() {
-		return this.a;
+public class StripNonAsciiAlphanumericCharactersTransformerTest {
+
+	StripNonAsciiAlphanumericCharactersTransformer transformer = new StripNonAsciiAlphanumericCharactersTransformer();
+
+	@Test
+	public void blank2blank() {
+		transformer = new StripNonAsciiAlphanumericCharactersTransformer();
+		assertEquals("", transformer.transform(""));
 	}
 
-	@Override
-	public String getB() {
-		return this.b;
+	@Test
+	public void customReplacement() {
+		transformer = new StripNonAsciiAlphanumericCharactersTransformer();
+		transformer.setReplacement("");
+		assertEquals("hyphenatedepithet", transformer.transform("hyphenated-epithet"));
+	}
+
+	@Test
+	public void withHyphenAndNumbersAndPunctuation () {
+		transformer = new StripNonAsciiAlphanumericCharactersTransformer();
+		assertEquals("T te t te en 2", transformer.transform("Tête-à-tête en 2"));
+	}
+
+	@Test
+	public void replaceEmDashes () {
+		transformer = new StripNonAsciiAlphanumericCharactersTransformer();
+		assertEquals("hello emdash", transformer.transform("hello—emdash"));
 	}
 }

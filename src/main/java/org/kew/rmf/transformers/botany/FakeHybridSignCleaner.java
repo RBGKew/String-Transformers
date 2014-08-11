@@ -7,17 +7,20 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.kew.rmf.transformers;
+package org.kew.rmf.transformers.botany;
+
+import org.kew.rmf.transformers.RegexTransformer;
 
 /**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
+ * Deletes X and x that seem to be meant as hybrid signs
+ *
+ * X and x can be at the beginning of a string followed by a whitespace or
+ * anywhere in the string if surrounded by white-spaces.
  */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+public class FakeHybridSignCleaner extends RegexTransformer {
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+	public FakeHybridSignCleaner() {
+		setPattern("^[Xx]\\s|\\s[xX]\\s");
+		setReplacement(" ");
 	}
 }

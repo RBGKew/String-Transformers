@@ -9,24 +9,31 @@
  */
 package org.kew.rmf.transformers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.kew.rmf.transformers.FakeHybridSignCleaner;
-import org.kew.rmf.transformers.Transformer;
 
-public class FakeHybridSignCleanerTest {
+public class StripNonAsciiAlphabeticCharactersTransformerTest {
 
-    @Test
-    public void test() throws Exception {
-        Transformer transformer = new FakeHybridSignCleaner();
-        assertEquals("bladibla", transformer.transform("X bladibla"));
-        assertEquals("bladibla", transformer.transform("x bladibla"));
-        assertEquals("bladi bla", transformer.transform("bladi x bla"));
-        assertEquals("bladi bla", transformer.transform("bladi X bla"));
+	StripNonAsciiAlphabeticCharactersTransformer transformer = new StripNonAsciiAlphabeticCharactersTransformer();
 
-        assertEquals("bladix bla", transformer.transform("bladix bla"));
-        assertEquals("bladiX bla", transformer.transform("bladiX bla"));
-    }
+	@Test
+	public void blank2blank() {
+		assertEquals("", transformer.transform(""));
+	}
 
+	@Test
+	public void aStringWithDiacritsAndNumbersAndPunctuation() {
+		assertEquals("T te t te en", transformer.transform("Tête-à-tête en 2"));
+	}
+
+	@Test
+	public void twoStringsWithHyphen() {
+		assertEquals("hello kitty", transformer.transform("hello-kitty"));
+	}
+
+	@Test
+	public void stringWithDotAtTheEnd() {
+		assertEquals("hallo", transformer.transform("hallo."));
+	}
 }

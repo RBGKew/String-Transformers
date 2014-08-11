@@ -9,15 +9,38 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
- */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+import static org.junit.Assert.*;
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+import org.junit.Test;
+import org.kew.rmf.transformers.RegexTransformer;
+
+public class RegexTransformerTest {
+
+	@Test
+	public void testSimple() {
+		RegexTransformer transformer = new RegexTransformer();
+		transformer.setPattern("Jelly");
+		transformer.setReplacement("Smelly");
+		assertEquals("Smelly fish", transformer.transform("Jelly fish"));
+	}
+
+	@Test
+	public void testRegEx() {
+		RegexTransformer transformer = new RegexTransformer();
+		transformer.setPattern("[^a-zA-Z\\s]");
+		transformer.setReplacement("");
+		assertEquals("Tidy String", transformer.transform("Tidy 1251258215123412String..//**#"));
+	}
+
+	/**
+	 * Removes repeated letters.
+	 */
+	@Test
+	public void testRegExMatchGroups() {
+		RegexTransformer transformer = new RegexTransformer();
+		transformer.setPattern("(\\p{L})\\1+");
+		transformer.setReplacement("$1");
+
+		assertEquals("Aple buble crash!!!", transformer.transform("Apple bubble ccccrrrraaassssssshhhhhhh!!!"));
 	}
 }

@@ -11,15 +11,78 @@ package org.kew.rmf.transformers;
 
 /**
  * Removes all text in brackets (round, square and curly) incl. the brackets.
- *
- * TODO: not sure how that deals with nested structures, needs more testing
  */
-public class RemoveBracketedTextTransformer extends A2BTransformer {
-	
-	final private String a = String.format("%s|%s|%s", ROUND_BRACKETS_AND_CONTENT, SQUARE_BRACKETS_AND_CONTENT, CURLY_BRACKETS_AND_CONTENT);
+public class RemoveBracketedTextTransformer implements Transformer {
+
+	private SqueezeWhitespaceTransformer whitespaceSqueezer = new SqueezeWhitespaceTransformer();
 
 	@Override
-	public String getA() {
-		return this.a;
+	public String transform(String s) {
+		if (s == null) return null;
+
+		char[] original = s.toCharArray();
+		char[] stripped = new char[original.length];
+
+		int pos = 0;
+
+		int count = 0;
+
+		char starter = 0;
+		char terminator = 0;
+
+		for (int i = 0; i < original.length; i++) {
+			boolean closed = false;
+
+			// If I'm inside some brackets...
+			if (count > 0) {
+
+				// Check for opening brackets of the same kind
+				if (original[i] == starter) {
+					count++;
+				}
+				// Or closing brackets of the right kind
+				else if (original[i] == terminator) {
+					// Brackets are only ending if this reduces the count to zero
+					count--;
+
+					// But that's only the end if we're out of nested brackets
+					if (count == 0) {
+						closed = true;
+					}
+				}
+			}
+			// If I'm not inside, check for a new sequence and set the terminator.
+			else {
+				switch (original[i]) {
+				case '(':
+					count++;
+					starter = '(';
+					terminator = ')';
+					break;
+				case '[':
+					count++;
+					starter = '[';
+					terminator = ']';
+					break;
+				case '{':
+					count++;
+					starter = '{';
+					terminator = '}';
+					break;
+				default:
+				}
+			}
+
+			if (count > 0 || closed) {
+				// Ignore this character
+			}
+			else {
+				stripped[pos++] = original[i];
+			}
+		}
+
+		String strippedString = new String(stripped);
+
+		return whitespaceSqueezer.transform(strippedString);
 	}
 }

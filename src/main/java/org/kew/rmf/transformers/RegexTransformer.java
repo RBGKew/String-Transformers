@@ -12,30 +12,41 @@ package org.kew.rmf.transformers;
 import java.util.regex.Pattern;
 
 /**
- * This is a chain of three transformations:
- * <ol>
- * 	<li>replace diacritical characters with their Latin equivalent ({@link NormaliseDiacriticalMarksTransformer})</li>
- * 	<li>replace all non-alphabetic characters with {@link #replacement} (default: space)</li>
- * 	<li>replace multiple whitespace occurrences with one whitespace</li>
- * </ul>
- * Returns a trimmed result.
+ * A generic transformer that searches for all occurrences of a regular expression pattern (regEx)
+ * {@link #pattern} in a string and replaces each with a string {@link #replacement}.
  * <br/>
- * This transformer works with Unicode text, unlike {@link StripNonAsciiAlphabeticCharactersTransformer}.
+ * <code>replacement</code> can be a normal string, or can include match groups like <code>$1</code>.
+ * <br/>
+ * It takes two optional parameters, {@link #removeMultipleWhitespaces} (default true) and
+ * {@link #trimIt} (default true)
  */
-public class StripNonAlphabeticCharactersTransformer implements Transformer {
+public class RegexTransformer implements Transformer {
 
-	private NormaliseDiacriticalMarksTransformer normaliseDiacriticalMarksTransformer = new NormaliseDiacriticalMarksTransformer();
-	private SqueezeWhitespaceTransformer squeezeWhitespaceTransformer = new SqueezeWhitespaceTransformer();
-
-	private final Pattern nonAlphabetic = Pattern.compile("[^\\p{L}]");
-	private String replacement = " ";
+	private Pattern pattern;
+	private String replacement = "";
+	private boolean removeMultipleWhitespaces = true;
+	private boolean trimIt = true;
 
 	@Override
 	public String transform(String s) {
-		s = normaliseDiacriticalMarksTransformer.transform(s);
-		s = nonAlphabetic.matcher(s).replaceAll(replacement);
-		s = squeezeWhitespaceTransformer.transform(s);
-		return s.trim();
+		s = pattern.matcher(s).replaceAll(getReplacement());
+
+		if (this.removeMultipleWhitespaces) {
+			s = SqueezeWhitespaceTransformer.MULTIPLE_WHITESPACE.matcher(s).replaceAll(" ");
+		}
+
+		if (this.trimIt) {
+			s = s.trim();
+		}
+
+		return s;
+	}
+
+	public Pattern getPattern() {
+		return pattern;
+	}
+	public void setPattern(String pattern) {
+		this.pattern = Pattern.compile(pattern);
 	}
 
 	public String getReplacement() {
@@ -43,5 +54,19 @@ public class StripNonAlphabeticCharactersTransformer implements Transformer {
 	}
 	public void setReplacement(String replacement) {
 		this.replacement = replacement;
+	}
+
+	public boolean isRemoveMultipleWhitespaces() {
+		return removeMultipleWhitespaces;
+	}
+	public void setRemoveMultipleWhitespaces(boolean removeMultipleWhitespaces) {
+		this.removeMultipleWhitespaces = removeMultipleWhitespaces;
+	}
+
+	public boolean isTrimIt() {
+		return trimIt;
+	}
+	public void setTrimIt(boolean trimIt) {
+		this.trimIt = trimIt;
 	}
 }

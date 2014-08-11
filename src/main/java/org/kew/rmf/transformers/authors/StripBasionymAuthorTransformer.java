@@ -9,24 +9,26 @@
  */
 package org.kew.rmf.transformers.authors;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.regex.Pattern;
+
+import org.kew.rmf.transformers.SqueezeWhitespaceTransformer;
 import org.kew.rmf.transformers.Transformer;
 
 /**
  * This transformer translates author strings in the form "(Author1) Author2" to "Author2"
  */
-public class StripBasionymAuthorTransformer implements Transformer{
+public class StripBasionymAuthorTransformer implements Transformer {
+
+	private Pattern bitsInBrackets = Pattern.compile("\\([^)]*\\)");
+	private SqueezeWhitespaceTransformer shrinkWhitespace = new SqueezeWhitespaceTransformer();
 
 	@Override
 	public String transform(String s) {
-		if (StringUtils.isNotBlank(s))
-			// replace ALL bits in brackets, then remove double whitespaces and surrounding whitespaces
-			s = s.replaceAll("\\([^)]*\\)", "").replaceAll("\\s+", " ").trim();
-		return s;
-	}
+		if (s == null) return null;
 
-	public static void main(String[] args) {
-		StripBasionymAuthorTransformer t  = new StripBasionymAuthorTransformer();
-		System.out.println(t.transform("(Author1) Author2"));
+		// replace ALL bits in brackets, then remove double whitespaces and surrounding whitespaces
+		s = bitsInBrackets.matcher(s).replaceAll(" ");
+		s = shrinkWhitespace.transform(s);
+		return s;
 	}
 }

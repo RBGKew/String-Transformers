@@ -10,10 +10,14 @@
 package org.kew.rmf.transformers;
 
 /**
- * This interface defines the behaviour expected of Transformers
- *
- * @author nn00kg
+ * This interface defines the behaviour expected of <code>Transformer</code>s.
  */
 public interface Transformer {
+	/**
+	 * Transform <code>s</code> into another String.
+	 * @param s	The string to transform
+	 * @return	The transformed string
+	 * @throws TransformationException	 If there is a problem with the transformer, e.g. unable to load external resource.
+	 */
 	public String transform(String s) throws TransformationException;
 }

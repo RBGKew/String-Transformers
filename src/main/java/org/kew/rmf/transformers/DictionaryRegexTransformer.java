@@ -9,6 +9,8 @@
  */
 package org.kew.rmf.transformers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,39 +22,50 @@ import org.kew.rmf.utils.Dictionary;
  * the keys to use each as a regular expression; if the pattern matches, it
  * transforms the string accordingly returning the corresponding value of the
  * Dictionary.
- *
+ * <br/>
  * If multiTransform is set it goes through the whole list of keys in the
  * same way, otherwise it returns after the first match.
  */
 public class DictionaryRegexTransformer implements Transformer {
 
-    private Dictionary dictionary;
-    private boolean multiTransform = false;
+	private Dictionary dictionary;
+	private boolean multiTransform = false;
 
-    @Override
-    public String transform(String s) throws TransformationException {
-        for (Map.Entry<String, String> entry : this.dictionary.entrySet()) {
-            Pattern p = Pattern.compile(entry.getKey());
-            Matcher m = p.matcher(s);
-            if (m.find()) {
-                s = m.replaceAll(entry.getValue());
-                if (this.multiTransform == false) return s;
-            }
-        }
-        return s;
-    }
+	private List<Pattern> patterns = new ArrayList<>();
+	private List<String> replacements = new ArrayList<>();
 
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
+	@Override
+	public String transform(String s) throws TransformationException {
+		for (int i = 0; i < patterns.size(); i++) {
+			Pattern p = patterns.get(i);
+			String r = replacements.get(i);
 
-    public boolean isMultiTransform() {
-        return multiTransform;
-    }
-    public void setMultiTransform(boolean multiTransform) {
-        this.multiTransform = multiTransform;
-    }
+			Matcher m = p.matcher(s);
+			if (m.find()) {
+				s = m.replaceAll(r);
+				if (this.multiTransform == false) return s;
+			}
+		}
+		return s;
+	}
+
+	public Dictionary getDictionary() {
+		return dictionary;
+	}
+	public void setDictionary(Dictionary dictionary) {
+		this.dictionary = dictionary;
+
+		for (Map.Entry<String, String> entry : this.dictionary.entrySet()) {
+			Pattern p = Pattern.compile(entry.getKey());
+			patterns.add(p);
+			replacements.add(entry.getValue());
+		}
+	}
+
+	public boolean isMultiTransform() {
+		return multiTransform;
+	}
+	public void setMultiTransform(boolean multiTransform) {
+		this.multiTransform = multiTransform;
+	}
 }

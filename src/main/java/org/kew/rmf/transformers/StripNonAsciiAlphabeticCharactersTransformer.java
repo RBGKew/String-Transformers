@@ -10,14 +10,18 @@
 package org.kew.rmf.transformers;
 
 /**
- * This transformer strips non numeric characters, i.e. not 0–9.
+ * This transformer strips non ASCII alphabetic characters (A to Z, a to z), replacing
+ * them with a space.
  * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
+ * Could often be combined with {@link NormaliseDiacriticalMarksTransformer} first.
+ *
+ * @see {@link StripNonAlphabeticCharactersTransformer} for retaining accented
+ * characters etc.
  */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+public class StripNonAsciiAlphabeticCharactersTransformer extends RegexTransformer {
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+	public StripNonAsciiAlphabeticCharactersTransformer() {
+		super.setPattern("[^A-Za-z]");
+		super.setReplacement(" ");
 	}
 }

@@ -6,6 +6,8 @@ This is a collection of string transformers, all of which implement a `transform
 
 Some are generic: `CapitalLettersExtractor` removes non-capital letters from a string.  Others are geared towards handling scientific names, like `StripBasionymAuthorTransformer`.
 
+**See the [String-Transformers Wiki on GitHub](https://github.com/RBGKew/String-Transformers/wiki) for further documentation.**
+
 ## Usage with OpenRefine
 
 The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download the JAR](http://repo1.maven.org/maven2/org/kew/rmf/string-transformers/0.1.0/string-transformers-0.1.0.jar)

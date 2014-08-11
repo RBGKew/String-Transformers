@@ -9,15 +9,33 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
- */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+import java.util.Locale;
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+/**
+ * Converts the input to lower case.
+ */
+public class UpperCaseTransformer implements Transformer {
+
+	Locale locale = Locale.ENGLISH;
+
+	/**
+	 * Converts the input to lower case using the defined locale, default is English.
+	 */
+	@Override
+	public String transform(String s) {
+		return s.toUpperCase(locale);
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+	/**
+	 * Sets the locale to use for the transformation.  Default is English.
+	 *
+	 * @see {@link String#toUpperCase(Locale)}.
+	 * @param locale
+	 */
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 }

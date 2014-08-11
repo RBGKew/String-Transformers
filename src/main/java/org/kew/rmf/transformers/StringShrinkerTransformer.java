@@ -10,14 +10,22 @@
 package org.kew.rmf.transformers;
 
 /**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
+ * Crops/shrinks a string to a length of {@link #length} characters.
  */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+public class StringShrinkerTransformer implements Transformer {
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+	private int length = Integer.MAX_VALUE;
+
+	@Override
+	public String transform(String s) {
+		if (s.length() > this.length) s = s.substring(0, this.length);
+		return s;
+	}
+
+	public Integer getLength() {
+		return length;
+	}
+	public void setLength(int length) {
+		this.length = length;
 	}
 }

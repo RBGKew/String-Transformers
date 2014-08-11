@@ -7,24 +7,25 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.kew.rmf.transformers;
+package org.kew.rmf.transformers.authors;
 
-/**
- * A collection of regular expressions that are meaningful to the domain and/or
- * are used multiple times.
- */
-public abstract class RegexDefCollection {
+import static org.junit.Assert.assertEquals;
 
-	protected String EX_MARKER = " ex ";
-	protected String EX_MARKER_REGEX = "( [Ee][Xx] )";
-	protected String IN_MARKER = " in ";
-	protected String IN_MARKER_REGEX =  "( [Ii][Nn] )";
+import org.junit.Test;
 
-	// to catch (more than one) occurrences of bracket-pairs incl. their content
-	protected String ROUND_BRACKETS_AND_CONTENT = "\\([^\\(\\)]*?\\)";
-	protected String SQUARE_BRACKETS_AND_CONTENT = "\\[[^\\[\\]]*?\\]";
-	protected String CURLY_BRACKETS_AND_CONTENT = "\\{[^\\{\\}]*?\\}";
+public class StripPublishingAuthorTransformerTest {
 
-    protected String ALPHANUMDIAC = "[a-zA-ZáéíóúÁÉÍÓÚâêîôÂÊÎÔãõÃĂÕçÇ]"; // to include diacritics in alphanumerics
+	StripPublishingAuthorTransformer transformer = new StripPublishingAuthorTransformer();
 
+	@Test
+	public void stripItSimple() {
+		String author = "(BasionymAuthor Brackets) Publishing, Other & A.Uthors";
+		assertEquals("BasionymAuthor Brackets", transformer.transform(author));
+	}
+
+	@Test
+	public void stripItMultipleAuthors () {
+		String author = "(BasionymAuthorOne Brackets) Pub.One. in (BasionymAuthorTwo) Publishing & Two & Three";
+		assertEquals("BasionymAuthorOne Brackets BasionymAuthorTwo", transformer.transform(author));
+	}
 }

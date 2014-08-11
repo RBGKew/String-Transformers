@@ -7,19 +7,17 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.kew.rmf.transformers;
+package org.kew.rmf.transformers.botany;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.kew.rmf.transformers.EpithetTransformer;
-import org.kew.rmf.transformers.Transformer;
 
 public class EpithetTransformerTest {
 
     @Test
-    public void test() throws Exception {
-        Transformer transformer = new EpithetTransformer();
+    public void test() {
+        EpithetTransformer transformer = new EpithetTransformer();
         assertEquals("Begonia", transformer.transform("Begonia2"));
         assertEquals("Begiana", transformer.transform("Begana"));
         assertEquals("Begiana", transformer.transform("Begiana"));
@@ -41,5 +39,4 @@ public class EpithetTransformerTest {
         //assertEquals("Begiarum", transformer.transform("Begarum"));
         //assertEquals("Begoiorum", transformer.transform("Begorum"));
     }
-
 }

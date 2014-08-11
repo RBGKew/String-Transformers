@@ -9,23 +9,29 @@
  */
 package org.kew.rmf.transformers.authors;
 
-import org.kew.rmf.transformers.RegexDefCollection;
+import java.util.Locale;
+import java.util.regex.Pattern;
+
 import org.kew.rmf.transformers.Transformer;
 
 /**
  * This transformer translates author strings in the form "Author1 in Author2" to "Author1"
  */
-public class StripInAuthorTransformer extends RegexDefCollection implements Transformer{
+public class StripInAuthorTransformer implements Transformer{
 
-    @Override
-    public String transform(String s) {
-        String cleaned = s;
-        if (s != null){
-            if (s.toLowerCase().indexOf(IN_MARKER) != -1){
-                cleaned = s.replaceAll(IN_MARKER_REGEX + ".*$", "");
-            }
-        }
-        return cleaned;
-    }
+	// TODO: Check this is general enough, e.g. word boundaries instead?
+	protected static final String IN_MARKER = " in ";
+	protected static final String IN_MARKER_REGEX =  "( [Ii][Nn] )";
 
+	private Pattern inPattern = Pattern.compile(IN_MARKER_REGEX + ".*$");
+
+	@Override
+	public String transform(String s) {
+		if (s == null) return null;
+
+		if (s.toLowerCase(Locale.ENGLISH).indexOf(IN_MARKER) != -1) {
+			s = inPattern.matcher(s).replaceAll("");
+		}
+		return s;
+	}
 }

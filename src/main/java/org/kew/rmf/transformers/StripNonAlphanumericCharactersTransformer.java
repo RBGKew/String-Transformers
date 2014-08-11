@@ -9,17 +9,39 @@
  */
 package org.kew.rmf.transformers;
 
+import java.util.regex.Pattern;
+
 /**
- * This transformer strips non alphabetic characters
- *
- * @deprecated Only works on ASCII; use SafeStripNonAlphanumericsTransformer instead.
+ * This is a chain of three transformations:
+ * <ol>
+ * 	<li>replace diacritical characters with their Latin equivalent ({@link NormaliseDiacriticalMarksTransformer})</li>
+ * 	<li>replace all non-alphanumeric characters with {@link #replacement} (default: space)</li>
+ * 	<li>replace multiple whitespace occurrences with one whitespace</li>
+ * </ul>
+ * Returns a trimmed result.
+ * <br/>
+ * This transformer works with Unicode text, unlike {@link StripNonAsciiAlphanumericCharactersTransformer}.
  */
-@Deprecated
-public class StripNonAlphanumericCharactersTransformer implements Transformer{
+public class StripNonAlphanumericCharactersTransformer implements Transformer {
+
+	private NormaliseDiacriticalMarksTransformer normaliseDiacriticalMarksTransformer = new NormaliseDiacriticalMarksTransformer();
+	private SqueezeWhitespaceTransformer squeezeWhitespaceTransformer = new SqueezeWhitespaceTransformer();
+
+	private final Pattern nonAlphanumeric = Pattern.compile("[^\\p{L}\\p{N}]");
+	private String replacement = " ";
 
 	@Override
 	public String transform(String s) {
-		return s.replaceAll("[^A-Za-z0-9]", " ").replaceAll("\\s+", " ");
+		s = normaliseDiacriticalMarksTransformer.transform(s);
+		s = nonAlphanumeric.matcher(s).replaceAll(replacement);
+		s = squeezeWhitespaceTransformer.transform(s);
+		return s.trim();
 	}
-	
+
+	public String getReplacement() {
+		return replacement;
+	}
+	public void setReplacement(String replacement) {
+		this.replacement = replacement;
+	}
 }

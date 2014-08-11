@@ -9,7 +9,9 @@
  */
 package org.kew.rmf.transformers.authors;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.kew.rmf.transformers.Transformer;
 
 /**
@@ -17,21 +19,24 @@ import org.kew.rmf.transformers.Transformer;
  */
 public class StripPublishingAuthorTransformer implements Transformer{
 
+	private Pattern inBrackets = Pattern.compile("\\((.*?)\\)");
+
 	@Override
 	public String transform(String s) {
-		String transformed = s;
-		if (StringUtils.isNotBlank(s) && ((s.indexOf("(") != -1) && s.indexOf(")") != -1))
-			transformed = s.substring(s.indexOf("(")+1,s.indexOf(")"));
-		else
-			transformed = "";
-		return transformed;
-	}
+		if (s == null) return null;
 
-	public static void main(String[] args) {
-		StripPublishingAuthorTransformer t  = new StripPublishingAuthorTransformer();
-		System.out.println(t.transform("(Author1) Author 2"));
-		System.out.println(t.transform("Author3"));
-		System.out.println(t.transform("(Author4)"));
+		StringBuffer sb = new StringBuffer();
+
+		Matcher m = inBrackets.matcher(s);
+		while (m.find()) {
+			String match = m.group(1);
+			if (sb.length() > 0) {
+				sb.append(" ");
+			}
+			sb.append(match);
+		}
+
+		return sb.toString().trim();
 	}
 
 }

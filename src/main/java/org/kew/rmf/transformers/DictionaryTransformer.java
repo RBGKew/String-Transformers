@@ -29,7 +29,6 @@ public class DictionaryTransformer implements Transformer {
     public Dictionary getDictionary() {
         return dictionary;
     }
-
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
     }

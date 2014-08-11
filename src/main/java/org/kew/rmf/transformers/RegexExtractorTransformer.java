@@ -15,54 +15,54 @@ import java.util.regex.Pattern;
 /**
  * A generic transformer that extracts all occurrences of a pattern (regEx)
  * in a string
- *
- * It takes two optional parameters, `removeMultipleWhitespaces` (default true) and
- * `trimIt` (default true)
+ * <br/>
+ * It takes two optional parameters, {@link #removeMultipleWhitespaces} (default true) and
+ * {@link #trimIt} (default true)
  */
-public class RegexExtractorTransformer extends RegexDefCollection implements Transformer {
+public class RegexExtractorTransformer implements Transformer {
 
-    protected String regex = "";
-    private boolean removeMultipleWhitespaces = true;
-    private boolean trimIt = true;
+	private Pattern regex;
+	private boolean removeMultipleWhitespaces = true;
+	private boolean trimIt = true;
 
-    @Override
-    public String transform(String s) {
-    	StringBuffer sb = new StringBuffer();
-    	if (s != null){
-            if (this.removeMultipleWhitespaces) s = s.replaceAll("\\s+", " ");
-            if (this.trimIt) s = s.trim();
-	    	Pattern patt = Pattern.compile("(" + regex + ")");
-	    	Matcher m = patt.matcher(s);
-	    	while (m.find()){
-	    		if (sb.length() > 0) sb.append(" ");
-	    		sb.append(m.group());
-	    	}
-    	}
-        return sb.toString();
-    }
+	@Override
+	public String transform(String s) {
+		StringBuilder sb = new StringBuilder();
+		if (s != null){
+			if (this.removeMultipleWhitespaces) {
+				s = SqueezeWhitespaceTransformer.MULTIPLE_WHITESPACE.matcher(s).replaceAll(" ");
+			}
+			if (this.trimIt) {
+				s = s.trim();
+			}
 
-    public String getRegex() {
-		return regex;
+			Matcher m = regex.matcher(s);
+			while (m.find()){
+				if (sb.length() > 0) sb.append(" ");
+				sb.append(m.group());
+			}
+		}
+		return sb.toString();
 	}
 
+	public String getRegex() {
+		return regex.pattern();
+	}
 	public void setRegex(String regex) {
-		this.regex = regex;
+		this.regex = Pattern.compile("(" + regex + ")");
 	}
 
 	public boolean isRemoveMultipleWhitespaces() {
-        return removeMultipleWhitespaces;
-    }
+		return removeMultipleWhitespaces;
+	}
+	public void setRemoveMultipleWhitespaces(boolean removeMultipleWhitespaces) {
+		this.removeMultipleWhitespaces = removeMultipleWhitespaces;
+	}
 
-    public void setRemoveMultipleWhitespaces(boolean removeMultipleWhitespaces) {
-        this.removeMultipleWhitespaces = removeMultipleWhitespaces;
-    }
-
-    public boolean isTrimIt() {
-        return trimIt;
-    }
-
-    public void setTrimIt(boolean trimIt) {
-        this.trimIt = trimIt;
-    }
-
+	public boolean isTrimIt() {
+		return trimIt;
+	}
+	public void setTrimIt(boolean trimIt) {
+		this.trimIt = trimIt;
+	}
 }

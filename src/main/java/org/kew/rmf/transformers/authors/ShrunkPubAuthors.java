@@ -9,47 +9,32 @@
  */
 package org.kew.rmf.transformers.authors;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kew.rmf.transformers.SafeStripNonAlphasTransformer;
-import org.kew.rmf.transformers.StringShrinker;
 import org.kew.rmf.transformers.Transformer;
 
 /**
  * This transformer tries to identify all publication authors of plant names in
  * a string and returns a string where each of their surnames are shrunk/cropped
- * to a length of `shrinkTo`.
- *
+ * to a length of {@link #shrinkTo}.
+ * <br/>
  * For examples of standard usage and corner cases see {@link
  * ShrunkPubAuthorsTest}
  */
 public class ShrunkPubAuthors implements Transformer {
 
-    private Integer shrinkTo = null;
+	private ShrunkAuthors shrunkAuthors = new ShrunkAuthors();
+	private CleanedPubAuthors cleanedPubAuthors = new CleanedPubAuthors();
 
-    @Override
-    public String transform(String s) {
-        s = new DotFDotCleaner().transform(s);
-        s = new CleanedPubAuthors().transform(s);
-        s = new SurnameExtractor().transform(s);
-        s = new SafeStripNonAlphasTransformer().transform(s);
-        s = s.replaceAll("\\s+", " ");
-        // shrink each identified author surname to shrinkTo if set
-        if (this.shrinkTo != null) {
-            String[] toShrink = s.split(" ");
-            for (int i=0;i<toShrink.length;i++) {
-                toShrink[i] = new StringShrinker(this.shrinkTo).transform(toShrink[i]);
-            }
-            s = StringUtils.join(toShrink, " ");
-        }
-        return s.toLowerCase();
-    }
+	@Override
+	public String transform(String s) {
+		s = cleanedPubAuthors.transform(s);
+		s = shrunkAuthors.transform(s);
+		return s;
+	}
 
-    public Integer getShrinkTo() {
-        return shrinkTo;
-    }
-
-    public void setShrinkTo(Integer shrinkTo) {
-        this.shrinkTo = shrinkTo;
-    }
-
+	public Integer getShrinkTo() {
+		return shrunkAuthors.getShrinkTo();
+	}
+	public void setShrinkTo(int shrinkTo) {
+		shrunkAuthors.setShrinkTo(shrinkTo);
+	}
 }

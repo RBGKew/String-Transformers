@@ -9,15 +9,17 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
- */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+import static org.junit.Assert.assertEquals;
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+import org.junit.Test;
+
+public class CapitalLettersExtractorTest {
+
+	CapitalLettersExtractor transformer = new CapitalLettersExtractor();
+
+	@Test
+	public void testSimple() {
+		assertEquals("K G", transformer.transform("Kew Gardens"));
+		assertEquals("TW AE", transformer.transform("TW9 3AE"));
 	}
 }

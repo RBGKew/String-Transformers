@@ -17,14 +17,13 @@ import java.util.regex.Pattern;
  */
 public class YearRangeExtractorTransformer implements Transformer {
 
-	String regex = "\\b(1[6789]\\d\\d|20[012]\\d)([–—-]\\b|\\b\\+|\\b)";
+	private final Pattern yearsRegex = Pattern.compile("\\b(1[6789]\\d\\d|20[012]\\d)([–—-]\\b|\\b\\+|\\b)");
 
 	@Override
 	public String transform(String s) {
 		StringBuffer sb = new StringBuffer();
 		if (s != null) {
-			Pattern patt = Pattern.compile(regex);
-			Matcher m = patt.matcher(s);
+			Matcher m = yearsRegex.matcher(s);
 			while (m.find()) {
 				String match = m.group();
 				match = match.replace('–', '-'); // en-dash

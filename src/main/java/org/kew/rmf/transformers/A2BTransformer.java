@@ -10,53 +10,61 @@
 package org.kew.rmf.transformers;
 
 /**
- * A generic transformer that searches for all occurrences of a pattern (regEx)
- * `a` in a string and replaces each with a string `b`;
- *
- * It takes two optional parameters, `removeMultipleWhitespaces` (default true) and
- * `trimIt` (default true)
+ * A generic transformer that searches for all occurrences of a string
+ * {@link #a} and replaces each with a string {@link #b}.
+ * <br/>
+ * It takes two optional parameters, {@link #removeMultipleWhitespaces} (default true) and
+ * {@link #trimIt} (default true)
  */
-public class A2BTransformer extends RegexDefCollection implements Transformer {
+public class A2BTransformer implements Transformer {
 
-    protected String a = "";
-    protected String b = "";
-    private boolean removeMultipleWhitespaces = true;
-    private boolean trimIt = true;
+	private String a = "";
+	private String b = "";
+	private boolean removeMultipleWhitespaces = true;
+	private boolean trimIt = true;
 
-    @Override
-    public String transform(String s) {
-        s = s.replaceAll(this.getA(), this.getB());
-        if (this.removeMultipleWhitespaces) s = s.replaceAll("\\s+", " ");
-        if (this.trimIt) s = s.trim();
-        return s;
-    }
+	@Override
+	public String transform(String s) {
+		if (s == null) return null;
 
-    public String getA() {
-        return a;
-    }
-    public void setA(String a) {
-        this.a = a;
-    }
-    public String getB() {
-        return b;
-    }
-    public void setB(String b) {
-        this.b = b;
-    }
+		s = s.replace(getA(), getB());
 
-    public boolean isRemoveMultipleWhitespaces() {
-        return removeMultipleWhitespaces;
-    }
+		if (this.removeMultipleWhitespaces) {
+			s = SqueezeWhitespaceTransformer.MULTIPLE_WHITESPACE.matcher(s).replaceAll(" ");
+		}
 
-    public void setRemoveMultipleWhitespaces(boolean removeMultipleWhitespaces) {
-        this.removeMultipleWhitespaces = removeMultipleWhitespaces;
-    }
+		if (this.trimIt) {
+			s = s.trim();
+		}
 
-    public boolean isTrimIt() {
-        return trimIt;
-    }
+		return s;
+	}
 
-    public void setTrimIt(boolean trimIt) {
-        this.trimIt = trimIt;
-    }
+	public String getA() {
+		return a;
+	}
+	public void setA(String a) {
+		this.a = a;
+	}
+
+	public String getB() {
+		return b;
+	}
+	public void setB(String b) {
+		this.b = b;
+	}
+
+	public boolean isRemoveMultipleWhitespaces() {
+		return removeMultipleWhitespaces;
+	}
+	public void setRemoveMultipleWhitespaces(boolean removeMultipleWhitespaces) {
+		this.removeMultipleWhitespaces = removeMultipleWhitespaces;
+	}
+
+	public boolean isTrimIt() {
+		return trimIt;
+	}
+	public void setTrimIt(boolean trimIt) {
+		this.trimIt = trimIt;
+	}
 }

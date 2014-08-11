@@ -12,29 +12,27 @@ package org.kew.rmf.transformers.authors;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.kew.rmf.transformers.Transformer;
-import org.kew.rmf.transformers.authors.DotFDotCleaner;
 
 public class DotFDotCleanerTest {
 
-    @Test
-    public void cleanIt() throws Exception {
-        Transformer transformer = new DotFDotCleaner();
-        String author = "Hans.f. bla";
-        assertEquals("Hans bla", transformer.transform(author));
-        author = "T.Anderson ex Hook.f.";
-        assertEquals("T.Anderson ex Hook", transformer.transform(author));
-        author = "Kauffman";
-        assertEquals("Kauffman", transformer.transform(author));
-    }
+	DotFDotCleaner transformer = new DotFDotCleaner();
 
-    @Test
-    public void alsoCleanSpaceFDot() throws Exception {
-        Transformer transformer = new DotFDotCleaner();
-        String author = "Hans f. bla";
-        assertEquals("Hans bla", transformer.transform(author));
-        author = "Baker f.";
-        assertEquals("Baker", transformer.transform(author));
-    }
+	@Test
+	public void cleanIt() {
+		assertEquals("Hans bla", transformer.transform("Hans.f. bla"));
+		assertEquals("T.Anderson ex Hook", transformer.transform("T.Anderson ex Hook.f."));
+		assertEquals("Kauffman", transformer.transform("Kauffman"));
+	}
 
+	@Test
+	public void alsoCleanSpaceFDot() {
+		assertEquals("Hans bla", transformer.transform("Hans f. bla"));
+		assertEquals("Baker", transformer.transform("Baker f."));
+	}
+
+	@Test
+	public void dontClean() {
+		assertEquals("Kampf. xyz", transformer.transform("Kampf. xyz"));
+		assertEquals("f.", transformer.transform("f."));
+	}
 }

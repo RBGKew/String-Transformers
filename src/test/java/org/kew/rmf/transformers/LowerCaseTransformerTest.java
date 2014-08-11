@@ -11,23 +11,30 @@ package org.kew.rmf.transformers;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Locale;
+
 import org.junit.Test;
 
-public class A2BTransformerTest {
+public class LowerCaseTransformerTest {
 
 	@Test
 	public void testSimple() {
-		A2BTransformer transformer = new A2BTransformer();
-		transformer.setA("Jelly");
-		transformer.setB("Smelly");
-		assertEquals("Smelly fish", transformer.transform("Jelly fish"));
+		LowerCaseTransformer transformer = new LowerCaseTransformer();
+		assertEquals("today is the 8th august.", transformer.transform("Today is the 8th August."));
+		assertEquals("mein geburtstag ist der 13. märz.", transformer.transform("Mein Geburtstag ist der 13. März."));
+		assertEquals("софия е столица на българия.", transformer.transform("София е столица на България."));
+		assertEquals("北京是中国的", transformer.transform("北京是中国的"));
 	}
 
 	@Test
-	public void testNotRegEx() {
-		A2BTransformer transformer = new A2BTransformer();
-		transformer.setA("(*)");
-		transformer.setB("$1");
-		assertEquals("AB$1DE", transformer.transform("AB(*)DE"));
+	public void testWithLocale() {
+		String capitalAiWithGrave = "Ì";
+		LowerCaseTransformer transformer = new LowerCaseTransformer();
+
+		assertEquals("ì", transformer.transform(capitalAiWithGrave)); // English locale, lowercase i with grave accent
+
+		transformer.setLocale(new Locale("lt"));
+		assertEquals("i̇̀", transformer.transform(capitalAiWithGrave)); // Lithuanian locale, lowercase i with combining dot above and combining grave accent
+		assertEquals("i\u0307\u0300", transformer.transform(capitalAiWithGrave)); // Same.
 	}
 }

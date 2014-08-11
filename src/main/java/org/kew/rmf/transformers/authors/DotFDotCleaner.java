@@ -9,18 +9,19 @@
  */
 package org.kew.rmf.transformers.authors;
 
-import org.kew.rmf.transformers.RegexDefCollection;
+import java.util.regex.Pattern;
+
 import org.kew.rmf.transformers.Transformer;
 
 /**
  * Removes " f.", ".f." after any alphanumeric Characters (incl. diacritics).
  */
-public class DotFDotCleaner extends RegexDefCollection implements Transformer {
+public class DotFDotCleaner implements Transformer {
 
-    @Override
-    public String transform(String s) {
-        String c = String.format("(?<=%s)[\\.\\s]f\\.", ALPHANUMDIAC);
-        return s.replaceAll(c, "");
-    }
+	Pattern pattern = Pattern.compile("\\b[\\.\\s]f\\.");
 
+	@Override
+	public String transform(String s) {
+		return pattern.matcher(s).replaceAll("");
+	}
 }

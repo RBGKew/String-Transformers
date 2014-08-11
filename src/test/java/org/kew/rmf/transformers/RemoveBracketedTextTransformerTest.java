@@ -12,80 +12,83 @@ package org.kew.rmf.transformers;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.kew.rmf.transformers.RemoveBracketedTextTransformer;
-import org.kew.rmf.transformers.Transformer;
 
 public class RemoveBracketedTextTransformerTest {
 
+	RemoveBracketedTextTransformer transformer = new RemoveBracketedTextTransformer();
+
 	@Test
-	public void blank2blank () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void blank2blank() {
 		assertEquals("", transformer.transform(""));
 	}
 
 	@Test
-	public void leaveOtherStuff () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void leaveOtherStuff() {
 		assertEquals("iuoiy*&^%$--tfghvbhjk", transformer.transform("iuoiy*&^%$--tfghvbhjk"));
 	}
 
 	@Test
-	public void removeRoundBracketsWithText () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
-		assertEquals("text", transformer.transform("text (text)"));
+	public void removeRoundBracketsWithText() {
+		assertEquals("text", transformer.transform("text (test)"));
 	}
 	@Test
-	public void removeRoundBracketsWithSpecificTextInRoundBrackets () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void removeRoundBracketsWithSpecificTextInRoundBrackets() {
 		assertEquals("Prodr.", transformer.transform("Prodr. (DC.)"));
 	}
 	@Test
-	public void removeRoundBracketsWithSpecificTextInSquaredBrackets () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void removeRoundBracketsWithSpecificTextInSquaredBrackets() {
 		assertEquals("Bot. Voy. Herald", transformer.transform("Bot. Voy. Herald [Seemann]"));
 	}
 
 	@Test
-	public void removeRoundBracketsWithoutText () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void removeRoundBracketsWithoutText() {
 		assertEquals("text", transformer.transform("te()xt"));
 	}
 
 	@Test
-	public void removeSquareBracketsWithText () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
-		assertEquals("text", transformer.transform("[text] text"));
+	public void removeSquareBracketsWithText() {
+		assertEquals("text", transformer.transform("[test] text"));
 	}
 
 	@Test
-	public void removeSquareBracketsWithoutText () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void removeSquareBracketsWithoutText() {
 		assertEquals("text", transformer.transform("text[]"));
 	}
 
 	@Test
-	public void removeCurlyBracketsWithText () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
-		assertEquals("text", transformer.transform("{text} text"));
+	public void removeCurlyBracketsWithText() {
+		assertEquals("text", transformer.transform("{test} text"));
 	}
 
 	@Test
-	public void removeCurlyBracketsWithoutText () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void removeCurlyBracketsWithoutText() {
 		assertEquals("text", transformer.transform("text{}"));
 	}
 
 	@Test
-	public void severalBrackets () throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void severalBrackets() {
 		assertEquals("1 3", transformer.transform("1 (2) 3 (4)"));
 	}
 
 	@Test
-	public void otherCases() throws Exception {
-		Transformer transformer = new RemoveBracketedTextTransformer();
+	public void otherCases() {
 		assertEquals("Prodr.", transformer.transform("Prodr. (DC.)"));
 		assertEquals("Bot. Voy. Herald", transformer.transform("Bot. Voy. Herald [Seemann]"));
 	}
 
+	@Test
+	public void nestedSameBrackets() {
+		assertEquals("One five.", transformer.transform("One (two (three) four) five."));
+	}
+
+	@Test
+	public void nestedAllBrackets() {
+		assertEquals("Lots brackets", transformer.transform("Lots (of round [and square {or curly} (sometimes)]) brackets"));
+	}
+
+	@Test
+	public void badlyNestedBrackets() {
+		assertEquals("Lots are brackets", transformer.transform("Lots (of round [and sq}u)are {or cu()rly} (so{m(eti}mes)]) brackets"));
+		assertEquals("Lots are ] brackets", transformer.transform("Lots (of round [and sq}u)are {or cu()rly} (so{m(eti}m)es)] brackets"));
+	}
 }

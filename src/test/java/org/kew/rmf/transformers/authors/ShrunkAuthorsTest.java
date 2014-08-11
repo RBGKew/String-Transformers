@@ -190,6 +190,4 @@ public class ShrunkAuthorsTest {
         String author = "L.A.S.Johnson & K.L.Wilson";
         assertEquals("joh wil", transformer.transform(author));
     }
-
-
 }

@@ -9,15 +9,40 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
- */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+/**
+ * Converts the input to lower case.
+ */
+public class TitleCaseTransformer extends LowerCaseTransformer {
+
+	Locale locale = Locale.ENGLISH;
+
+	Pattern capitalise = Pattern.compile("\\b(\\p{L}\\p{Mn}*)");
+
+	/**
+	 * Converts the input to lower case using the defined locale, default is English.
+	 * Then capitalises letters following a word boundary.
+	 */
+	@Override
+	public String transform(String s) {
+		StringBuilder sb = new StringBuilder(super.transform(s));
+
+		System.out.println("---");
+		Matcher m = capitalise.matcher(s);
+		while (m.find()) {
+			System.out.println("Found "+m.group(1));
+			System.out.println("Length "+m.group(1).length());
+			System.out.println("Start "+m.start());
+			System.out.println("End "+m.end());
+			String match = m.group(1);
+			System.out.println("Replacing «"+sb.substring(m.start(), m.end())+"» with «"+match.toUpperCase(getLocale())+"»");
+			sb.delete(m.start(), m.end());
+			sb.insert(m.start(), match.toUpperCase(getLocale()));
+		}
+
+		return sb.toString();
 	}
 }

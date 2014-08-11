@@ -9,15 +9,21 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * This transformer strips non numeric characters, i.e. not 0–9.
- * <br/>
- * For handling other numbers (other scripts, Roman numbers, superscript etc)
- * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
- */
-public class StripNonNumericCharactersTransformer extends RegexTransformer {
+import java.util.regex.Pattern;
 
-	public StripNonNumericCharactersTransformer() {
-		super.setPattern("[^0-9]");
+/**
+ * A transformer to find multiple whitespace characters (space, tab etc) and
+ * replace them with a single space.
+ * <br/>
+ * Handles these characters: space, tab, new line, vertical tab, form feed, carriage return.
+ * For handling Unicode use the regular expression <code>\P{Z}</code> instead.
+ */
+public class SqueezeWhitespaceTransformer implements Transformer {
+
+	protected static final Pattern MULTIPLE_WHITESPACE = Pattern.compile("\\s+");
+
+	@Override
+	public String transform(String s) {
+		return MULTIPLE_WHITESPACE.matcher(s).replaceAll(" ").trim();
 	}
 }

@@ -9,28 +9,31 @@
  */
 package org.kew.rmf.transformers;
 
-/**
- * Crops/shrinks a string to a length of `shrinkTo` characters.
- */
-public class StringShrinker implements Transformer {
+import static org.junit.Assert.assertEquals;
 
-    private Integer shrinkTo = null;
+import org.junit.Test;
 
-    public StringShrinker(int shrinkTo) {
-        this.shrinkTo = shrinkTo;
-    }
+public class StripNonAlphabeticCharactersTransformerTest {
 
-    @Override
-    public String transform(String s) {
-        if (s.length() > this.shrinkTo) s = s.substring(0, this.shrinkTo);
-        return s;
-    }
+	StripNonAlphabeticCharactersTransformer transformer = new StripNonAlphabeticCharactersTransformer();
 
-    public Integer getShrinkTo() {
-        return shrinkTo;
-    }
+	@Test
+	public void blank2blank() {
+		assertEquals("", transformer.transform(""));
+	}
 
-    public void setShrinkTo(Integer shrinkTo) {
-        this.shrinkTo = shrinkTo;
-    }
+	@Test
+	public void aStringWithDiacritsAndNumbersAndPunctuation() {
+		assertEquals("Tete a tete en", transformer.transform("Tête-à-tête en 2"));
+	}
+
+	@Test
+	public void twoStringsWithHyphen() {
+		assertEquals("hello kitty", transformer.transform("hello-kitty"));
+	}
+
+	@Test
+	public void stringWithDotAtTheEnd() {
+		assertEquals("hallo", transformer.transform("hallo."));
+	}
 }
