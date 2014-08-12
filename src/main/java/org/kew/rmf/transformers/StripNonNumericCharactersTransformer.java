@@ -10,7 +10,7 @@
 package org.kew.rmf.transformers;
 
 /**
- * This transformer strips non numeric characters, i.e. not 0–9.
+ * This transformer strips non numeric characters, i.e. not 0–9, replacing them with a space.
  * <br/>
  * For handling other numbers (other scripts, Roman numbers, superscript etc)
  * use an {@link RegexTransformer} with the pattern <code>"[\P{N}]"</code>
@@ -19,5 +19,6 @@ public class StripNonNumericCharactersTransformer extends RegexTransformer {
 
 	public StripNonNumericCharactersTransformer() {
 		super.setPattern("[^0-9]");
+		super.setReplacement(" ");
 	}
 }

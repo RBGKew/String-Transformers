@@ -26,13 +26,13 @@ public class StripNonNumericCharactersTransformerTest {
 	@Test
 	public void customReplacement() {
 		transformer = new StripNonNumericCharactersTransformer();
+		transformer.setReplacement("");
 		assertEquals("456", transformer.transform("ABC456GHI"));
 	}
 
 	@Test
 	public void withHyphenAndNumbersAndPunctuation () {
 		transformer = new StripNonNumericCharactersTransformer();
-		transformer.setReplacement(" ");
 		assertEquals("2 4", transformer.transform("A 2 C 4"));
 	}
 }
