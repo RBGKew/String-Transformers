@@ -6,11 +6,11 @@ This is a collection of string transformers, all of which implement a `transform
 
 Some are generic: `CapitalLettersExtractor` removes non-capital letters from a string.  Others are geared towards handling scientific names, like `StripBasionymAuthorTransformer`.
 
-**See the [String-Transformers Wiki on GitHub](https://github.com/RBGKew/String-Transformers/wiki) or [API Documentation](https://rbgkew.github.io/String-Transformers/apidocs/0.1.0/) for further documentation.**
+**See the [String-Transformers Wiki on GitHub](https://github.com/RBGKew/String-Transformers/wiki) or [API Documentation](https://rbgkew.github.io/String-Transformers/apidocs/0.2.0/) for further documentation.**
 
 ## Usage with OpenRefine
 
-The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download the JAR](http://repo1.maven.org/maven2/org/kew/rmf/string-transformers/0.1.0/string-transformers-0.1.0.jar)
+The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download the JAR](http://repo1.maven.org/maven2/org/kew/rmf/string-transformers/0.2.0/string-transformers-0.2.0.jar)
 and [Apache Commons-Lang3 JAR](http://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar) and
 put both in OpenRefine's `webapp/extensions/jython/module/MOD-INF/lib` directory, then (re)start OpenRefine.
 
@@ -31,7 +31,7 @@ The library is published in the Maven Central Repository:
 <dependency>
 	<groupId>org.kew.rmf</groupId>
 	<artifactId>string-transformers</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 </dependency>
 ```
 
