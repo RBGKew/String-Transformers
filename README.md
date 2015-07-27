@@ -37,7 +37,7 @@ The library is published in the Maven Central Repository:
 
 ## Licensing, contributions and credits
 
-String-Transformers is open source software licensed under the MIT license, see `LICENSE.md`.  The software was created at the [Royal Botanic Gardens, Kew](http://www.kew.org/).  For details of
+String-Transformers is open source software licensed under the MIT license, see `LICENSE.md`. The software is developed and maintained by the [Biodiversity Informatics team](http://www.kew.org/science-conservation/people-and-data/science-directory/teams/biodiversity-informatics-and-spatial) at the [Royal Botanic Gardens, Kew](http://www.kew.org/). For details of
 developers see the Git commit history.  Thanks also to the Data Improvement Team for their scientific input.
 
 Further contributions are welcome!  We’re also interested to know if you use this library, whether that’s for biodiversity data or something else.  Contact [Matthew Blissett](mailto:M.Blissett@kew.org?subject=String-Transformers) or
