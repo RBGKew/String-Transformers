@@ -12,7 +12,7 @@ package org.kew.rmf.transformers;
 import java.util.regex.Pattern;
 
 /**
- * A generic transformer that searches for all occurrences of a regular expression pattern (regEx)
+ * A generic transformer that searches for all occurrences of a regular expression (regEx)
  * {@link #pattern} in a string and replaces each with a string {@link #replacement}.
  * <br/>
  * <code>replacement</code> can be a normal string, or can include match groups like <code>$1</code>.
@@ -22,14 +22,15 @@ import java.util.regex.Pattern;
  */
 public class RegexTransformer implements Transformer {
 
-	private Pattern pattern;
+	private String pattern;
+	private Pattern compiledPattern;
 	private String replacement = "";
 	private boolean removeMultipleWhitespaces = true;
 	private boolean trimIt = true;
 
 	@Override
 	public String transform(String s) {
-		s = pattern.matcher(s).replaceAll(getReplacement());
+		s = compiledPattern.matcher(s).replaceAll(getReplacement());
 
 		if (this.removeMultipleWhitespaces) {
 			s = SqueezeWhitespaceTransformer.MULTIPLE_WHITESPACE.matcher(s).replaceAll(" ");
@@ -42,11 +43,16 @@ public class RegexTransformer implements Transformer {
 		return s;
 	}
 
-	public Pattern getPattern() {
+	public Pattern getCompiledPattern() {
+		return compiledPattern;
+	}
+
+	public String getPattern() {
 		return pattern;
 	}
 	public void setPattern(String pattern) {
-		this.pattern = Pattern.compile(pattern);
+		this.pattern = pattern;
+		this.compiledPattern = Pattern.compile(pattern);
 	}
 
 	public String getReplacement() {
