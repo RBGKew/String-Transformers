@@ -23,7 +23,7 @@ import org.kew.rmf.utils.Dictionary;
  * transforms the string accordingly returning the corresponding value of the
  * Dictionary.
  * <br/>
- * If multiTransform is set it goes through the whole list of keys in the
+ * If {@link #multiTransform} is set it goes through the whole list of keys in the
  * same way, otherwise it returns after the first match.
  */
 public class DictionaryRegexTransformer implements Transformer {

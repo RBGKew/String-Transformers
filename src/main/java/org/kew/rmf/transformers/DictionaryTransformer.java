@@ -15,6 +15,9 @@ import org.kew.rmf.utils.Dictionary;
  * Uses a {@link org.kew.rmf.utils.Dictionary} object to lookup a string in its
  * keys and returns the value if the key is found. Otherwise it returns the
  * original string.
+ * <br/>
+ * <em>Take care if coupling with other transformers to ensure Dictionary keys
+ * are as they would be after earlier transformations.</em>
  */
 public class DictionaryTransformer implements Transformer {
 
