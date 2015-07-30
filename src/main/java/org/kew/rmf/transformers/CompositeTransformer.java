@@ -35,4 +35,9 @@ public class CompositeTransformer implements Transformer{
 	public void setTransformers(List<Transformer> transformers) {
 		this.transformers = transformers;
 	}
+
+	public void addTransformer(Transformer transformer) {
+		transformers.add(transformer);
+	}
+
 }

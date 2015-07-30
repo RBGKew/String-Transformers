@@ -18,8 +18,8 @@ public class CompositeTransformerTest {
 		UpperCaseTransformer upperCase = new UpperCaseTransformer();
 
 		CompositeTransformer composite = new CompositeTransformer();
-		composite.getTransformers().add(upperCase);
-		composite.getTransformers().add(doubleLetters);
+		composite.addTransformer(upperCase);
+		composite.addTransformer(doubleLetters);
 
 		try {
 			assertEquals("LANFAIRPWLGWYNGYLGOGERYCHWYRNDROBWLANTYSILIOGOGOGOCH", composite.transform("Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch"));
