@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>/*<a name="line.1"></a>
+<span class="sourceLineNo">002</span> * Copyright © 2012, 2013, 2014 Royal Botanic Gardens, Kew.<a name="line.2"></a>
+<span class="sourceLineNo">003</span> *<a name="line.3"></a>
+<span class="sourceLineNo">004</span> * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<a name="line.4"></a>
+<span class="sourceLineNo">005</span> *<a name="line.5"></a>
+<span class="sourceLineNo">006</span> * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<a name="line.6"></a>
+<span class="sourceLineNo">007</span> *<a name="line.7"></a>
+<span class="sourceLineNo">008</span> * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<a name="line.8"></a>
+<span class="sourceLineNo">009</span> */<a name="line.9"></a>
+<span class="sourceLineNo">010</span>package org.kew.rmf.transformers;<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>import java.text.Normalizer;<a name="line.12"></a>
+<span class="sourceLineNo">013</span>import java.util.HashMap;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>import java.util.Map;<a name="line.14"></a>
+<span class="sourceLineNo">015</span>import java.util.regex.Pattern;<a name="line.15"></a>
+<span class="sourceLineNo">016</span><a name="line.16"></a>
+<span class="sourceLineNo">017</span>/**<a name="line.17"></a>
+<span class="sourceLineNo">018</span> * Removes diacritical marks from letters, intended for dealing with OCR errors<a name="line.18"></a>
+<span class="sourceLineNo">019</span> * and language-ignorant string comparisons.<a name="line.19"></a>
+<span class="sourceLineNo">020</span> * &lt;br/&gt;<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * Converts a string to its normalised form using unicode's NFKD form<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * (http://unicode.org/reports/tr15/).  Translates some non-English letters<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * to what an English speaker might consider an unaccented letter.<a name="line.23"></a>
+<span class="sourceLineNo">024</span> */<a name="line.24"></a>
+<span class="sourceLineNo">025</span>public class NormaliseDiacriticalMarksTransformer implements Transformer {<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>        /*<a name="line.27"></a>
+<span class="sourceLineNo">028</span>         * See http://www.regular-expressions.info/unicode.html for Unicode character classes.<a name="line.28"></a>
+<span class="sourceLineNo">029</span>         * See also Lucene's ASCIIFoldingFilter, which deals with a far greater range of characters.<a name="line.29"></a>
+<span class="sourceLineNo">030</span>         */<a name="line.30"></a>
+<span class="sourceLineNo">031</span><a name="line.31"></a>
+<span class="sourceLineNo">032</span>        private final Pattern accents = Pattern.compile("[\\p{M}]");<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>        private final Map&lt;String,String&gt; additionalReplacements;<a name="line.34"></a>
+<span class="sourceLineNo">035</span>        public NormaliseDiacriticalMarksTransformer() {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>                additionalReplacements = new HashMap&lt;&gt;();<a name="line.36"></a>
+<span class="sourceLineNo">037</span>                additionalReplacements.put("Æ", "AE");<a name="line.37"></a>
+<span class="sourceLineNo">038</span>                additionalReplacements.put("æ", "ae");<a name="line.38"></a>
+<span class="sourceLineNo">039</span>                additionalReplacements.put("Œ", "OE");<a name="line.39"></a>
+<span class="sourceLineNo">040</span>                additionalReplacements.put("œ", "oe");<a name="line.40"></a>
+<span class="sourceLineNo">041</span>                additionalReplacements.put("Ø", "O");<a name="line.41"></a>
+<span class="sourceLineNo">042</span>                additionalReplacements.put("ø", "o");<a name="line.42"></a>
+<span class="sourceLineNo">043</span>                additionalReplacements.put("Ł", "L");<a name="line.43"></a>
+<span class="sourceLineNo">044</span>                additionalReplacements.put("ł", "l");<a name="line.44"></a>
+<span class="sourceLineNo">045</span>                additionalReplacements.put("Đ", "D");<a name="line.45"></a>
+<span class="sourceLineNo">046</span>                additionalReplacements.put("đ", "d");<a name="line.46"></a>
+<span class="sourceLineNo">047</span>                additionalReplacements.put("—", "-"); // emdash to hyphen<a name="line.47"></a>
+<span class="sourceLineNo">048</span>                additionalReplacements.put("–", "-"); // ndash to hyphen<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        };<a name="line.49"></a>
+<span class="sourceLineNo">050</span><a name="line.50"></a>
+<span class="sourceLineNo">051</span>        @Override<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        public String transform(String s) {<a name="line.52"></a>
+<span class="sourceLineNo">053</span>                s = Normalizer.normalize(s, Normalizer.Form.NFKD);<a name="line.53"></a>
+<span class="sourceLineNo">054</span>                for (String key : additionalReplacements.keySet()) {<a name="line.54"></a>
+<span class="sourceLineNo">055</span>                        s = s.replace(key, additionalReplacements.get(key));<a name="line.55"></a>
+<span class="sourceLineNo">056</span>                }<a name="line.56"></a>
+<span class="sourceLineNo">057</span>                return accents.matcher(s).replaceAll("");<a name="line.57"></a>
+<span class="sourceLineNo">058</span>        }<a name="line.58"></a>
+<span class="sourceLineNo">059</span>}<a name="line.59"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
