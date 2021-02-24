@@ -10,8 +10,8 @@ Some are generic: `CapitalLettersExtractor` removes non-capital letters from a s
 
 ## Usage with OpenRefine
 
-The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download the JAR](http://repo1.maven.org/maven2/org/kew/rmf/string-transformers/0.2.0/string-transformers-0.2.0.jar)
-and [Apache Commons-Lang3 JAR](http://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar) and
+The transformers can be used with [OpenRefine](http://www.openrefine.org/).  [Download the JAR](https://repo1.maven.org/maven2/org/kew/rmf/string-transformers/0.2.0/string-transformers-0.2.0.jar)
+and [Apache Commons-Lang3 JAR](https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.3.2/commons-lang3-3.3.2.jar) and
 put both in OpenRefine's `webapp/extensions/jython/module/MOD-INF/lib` directory, then (re)start OpenRefine.
 
 Use expressions like this, after selecting _Jython_ from the Language dropdown:
